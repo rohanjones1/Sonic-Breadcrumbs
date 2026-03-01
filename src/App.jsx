@@ -1,24 +1,18 @@
-import { useState } from "react"
-import Home from "./pages/Home"
-import Login from "./pages/Login"
-import MapPage from "./pages/MapPage"
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import MapPage from './pages/MapPage'
 
 function App() {
-
-  const [page, setPage] = useState("home")
-
-  if(page === "home"){
-    return <Home />
-  }
-
-  if(page === "login"){
-    return <Login />
-  }
-
-  if(page === "map"){
-    return <MapPage />
-  }
-
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/map" element={<MapPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App
