@@ -5,7 +5,7 @@ import MapPage from "./pages/MapPage"
 
 function App() {
 
-  const [page, setPage] = useState("map")
+  const [page, setPage] = useState("home")
 
   if(page === "home"){
     return <Home />
