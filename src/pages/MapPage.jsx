@@ -17,7 +17,15 @@ function MapPage() {
     });
 
     navigator.geolocation.getCurrentPosition((pos) => {
-      map.setCenter([pos.coords.longitude, pos.coords.latitude]);
+      const { latitude, longitude } = pos.coords;
+
+      map.setCenter([longitude, latitude]);
+
+      // Create the pulsing dot element
+      const el = document.createElement("div");
+      el.className = "user-location-dot";
+
+      new mapboxgl.Marker(el).setLngLat([longitude, latitude]).addTo(map);
     });
 
     return () => map.remove();
