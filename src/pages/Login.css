@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.login-bg {
+  min-height: 100vh;
+  background: #0a0a0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ambient background glow */
+.login-bg::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(220, 60, 60, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.login-bg::after {
+  content: '';
+  position: fixed;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(100, 60, 200, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Vinyl Record */
+.vinyl {
+  position: fixed;
+  top: -120px;
+  right: -120px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50%, #1a1a1a 0%, #0d0d0d 100%);
+  animation: spin 12s linear infinite;
+  box-shadow: 0 0 80px rgba(220, 60, 60, 0.15);
+  opacity: 0.6;
+}
+
+.vinyl::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    transparent 0px,
+    transparent 8px,
+    rgba(255,255,255,0.03) 8px,
+    rgba(255,255,255,0.03) 9px
+  );
+}
+
+.vinyl-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c0392b, #8e1a0e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: rgba(255,255,255,0.7);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.vinyl-groove {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.vinyl-groove { inset: 60px; }
+.vinyl-groove.v2 { inset: 100px; }
+.vinyl-groove.v3 { inset: 140px; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Floating notes */
+.note {
+  position: fixed;
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.08);
+  animation: floatUp 8s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+.n1 { left: 8%; bottom: 20%; animation-delay: 0s; font-size: 1rem; }
+.n2 { left: 15%; bottom: 10%; animation-delay: 1.5s; }
+.n3 { left: 5%; bottom: 50%; animation-delay: 3s; font-size: 1.8rem; }
+.n4 { right: 20%; bottom: 30%; animation-delay: 2s; font-size: 1.2rem; }
+.n5 { right: 10%; bottom: 60%; animation-delay: 4s; }
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(-5deg); opacity: 0.06; }
+  50%  { transform: translateY(-30px) rotate(5deg); opacity: 0.12; }
+  100% { transform: translateY(0) rotate(-5deg); opacity: 0.06; }
+}
+
+/* Login Card */
+.login-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+  animation: fadeUp 0.6s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.music-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.login-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.login-header p {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.875rem;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+}
+
+/* Inputs */
+.input-group {
+  margin-bottom: 14px;
+}
+
+.login-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.login-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.login-input:focus {
+  border-color: rgba(220, 60, 60, 0.6);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  background: linear-gradient(135deg, #c0392b, #96281b);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+  color: rgba(255,255,255,0.2);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+/* Google button */
+.btn-google {
+  width: 100%;
+  padding: 13px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-google:hover {
+  background: rgba(255,255,255,0.11);
+  transform: translateY(-1px);
+}
+
+.btn-google:active {
+  transform: translateY(0);
+}
+
+/* Signup text */
+.signup-text {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.signup-text a {
+  color: #e05555;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+.error-text {
+  color: #e05555;
+  font-size: 0.82rem;
+  text-align: center;
+  margin-bottom: 10px;
+  animation: fadeUp 0.3s ease both;
+}
