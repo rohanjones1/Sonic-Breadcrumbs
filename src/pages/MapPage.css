@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap');
+
 .map-container {
   position: relative;
   width: 100vw;
@@ -141,4 +143,245 @@
 
 .recenter-btn:hover {
   background: #f0f0f0;
+}
+
+
+
+.profile-avatar-btn {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.7);
+    background: #2a2416;
+    cursor: pointer;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.15);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.profile-avatar-btn:hover {
+    border-color: #c9a84c;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.6), 0 0 14px rgba(201,168,76,0.25);
+    transform: scale(1.06);
+}
+.profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.profile-avatar-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #c9a84c;
+    line-height: 1;
+}
+
+/* Backdrop */
+.profile-panel-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(2px);
+}
+
+/* Panel */
+.profile-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 30;
+    width: 300px;
+    background: #1e1a10;
+    border-right: 1px solid rgba(201,168,76,0.2);
+    box-shadow: 4px 0 40px rgba(0,0,0,0.7);
+    padding: 2rem 1.5rem 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    animation: slideInLeft 0.25s ease;
+}
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* Gold top bar on panel */
+.profile-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+}
+
+.profile-panel-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: #8a7a55;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+}
+.profile-panel-close:hover { color: #c9a84c; }
+
+/* Avatar in panel */
+.pp-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    margin-top: 0.5rem;
+}
+.pp-avatar {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.35);
+    background: #2a2416;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 24px rgba(201,168,76,0.15);
+    transition: border-color 0.2s;
+}
+.pp-avatar:hover { border-color: rgba(201,168,76,0.7); }
+.pp-avatar:hover .pp-avatar-overlay { opacity: 1; }
+.pp-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.pp-avatar-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #c9a84c;
+}
+.pp-avatar-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 50%;
+}
+.pp-change-photo {
+    margin-top: 0.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: #8a7a55;
+    letter-spacing: 0.05em;
+}
+
+/* Username */
+.pp-username {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #ede8d8;
+    text-align: center;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+}
+
+/* Bio */
+.pp-bio {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #8a7a55;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 0.25rem;
+}
+
+/* Section label */
+.pp-section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #a07830;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.pp-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.18);
+}
+
+/* Songs */
+.pp-songs {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.pp-song-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: #2a2416;
+    border: 1px solid rgba(201,168,76,0.14);
+    border-radius: 2px;
+    padding: 0.55rem 0.75rem;
+}
+.pp-song-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: #c9a84c;
+    flex-shrink: 0;
+    font-family: 'DM Sans', sans-serif;
+}
+.pp-song-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: #ede8d8;
+    line-height: 1.3;
+}
+
+.pp-loading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #8a7a55;
+    text-align: center;
+    margin-top: 2rem;
 }
