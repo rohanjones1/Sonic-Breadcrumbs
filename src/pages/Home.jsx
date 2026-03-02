@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 import "./Home.css";
 
 function Particle({ x, y, note, delay, duration, color }) {
@@ -56,19 +58,77 @@ const RIPPLES = [
   { x: 75, y: 55, delay: 1.2 },
 ];
 
-const CARDS = [
-  { title: "Blinding Lights", artist: "The Weeknd", location: "Times Square", time: "2h ago", x: 58, y: 38, delay: 0.3, color: "#c9a96e" },
-  { title: "Espresso", artist: "Sabrina Carpenter", location: "Brooklyn Bridge", time: "45m ago", x: 65, y: 12, delay: 0.9, color: "#a8b89a" },
-  { title: "BIRDS OF A FEATHER", artist: "Billie Eilish", location: "Central Park", time: "Just now", x: 62, y: 62, delay: 1.5, color: "#d4956a" },
+const CARD_POSITIONS = [
+  { x: 58, y: 38, delay: 0.3, color: "#c9a96e" },
+  { x: 65, y: 12, delay: 0.9, color: "#a8b89a" },
+  { x: 62, y: 62, delay: 1.5, color: "#d4956a" },
 ];
+
+function formatTime(timestamp) {
+  if (!timestamp) return "just now";
+  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+  const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 60) return "just now";
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+}
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [clickRipples, setClickRipples] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [stats, setStats] = useState({ dropsToday: "—", cities: "—", activeDrops: "—" });
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => { setTimeout(() => setLoaded(true), 500); }, []);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "drops"), (snapshot) => {
+      const all = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      const now = Date.now();
+      const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+      const oneDayAgo = now - 24 * 60 * 60 * 1000;
+
+      const dropsToday = all.filter(d => {
+        const t = d.timestamp?.toDate ? d.timestamp.toDate() : new Date(d.timestamp);
+        return t >= todayStart;
+      });
+
+      const activeDrops = all.filter(d => {
+        const t = d.timestamp?.toDate ? d.timestamp.toDate() : new Date(d.timestamp);
+        return t.getTime() >= oneDayAgo;
+      });
+
+      const cities = new Set(all.filter(d => d.city).map(d => d.city));
+
+      setStats({
+        dropsToday: dropsToday.length >= 1000 ? `${(dropsToday.length / 1000).toFixed(1)}k` : dropsToday.length,
+        cities: cities.size || "—",
+        activeDrops: activeDrops.length,
+      });
+
+      const recent = [...all]
+        .sort((a, b) => {
+          const ta = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+          const tb = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+          return tb - ta;
+        })
+        .slice(0, 3);
+
+      setCards(recent.map((drop, i) => ({
+        title: drop.trackName,
+        artist: drop.artistName,
+        location: drop.city || "Nearby",
+        time: formatTime(drop.timestamp),
+        ...CARD_POSITIONS[i],
+      })));
+    });
+
+    return () => unsub();
+  }, []);
 
   const handleClick = useCallback((e) => {
     const id = Date.now() + Math.random();
@@ -113,13 +173,8 @@ export default function Home() {
         <span className="sb-logo">Sonic Breadcrumbs</span>
       </nav>
 
-      {/* Click ripples outside overflow:hidden container */}
       {clickRipples.map(r => (
-        <div
-          key={r.id}
-          className="click-ripple"
-          style={{ left: r.x, top: r.y }}
-        />
+        <div key={r.id} className="click-ripple" style={{ left: r.x, top: r.y }} />
       ))}
 
       <div className={`sb-home ${loaded ? "loaded" : ""}`} onClick={handleClick}>
@@ -127,7 +182,8 @@ export default function Home() {
         <div className="atmosphere" />
         {PARTICLES.map((p, i) => <Particle key={i} {...p} />)}
         {RIPPLES.map((r, i) => <Ripple key={i} {...r} />)}
-        {CARDS.map((c, i) => <SongCard key={i} {...c} />)}
+        {cards.map((c, i) => <SongCard key={i} {...c} />)}
+
         <main className="sb-main">
           <div className="eyebrow"><span className="live-dot" />Live near you</div>
           <h1 className="sb-headline">
@@ -147,11 +203,11 @@ export default function Home() {
             </button>
           </div>
           <div className="sb-stats">
-            <div className="stat"><span className="stat-num">2.4k</span><span className="stat-label">drops today</span></div>
+            <div className="stat"><span className="stat-num">{stats.dropsToday}</span><span className="stat-label">drops today</span></div>
             <div className="stat-divider" />
-            <div className="stat"><span className="stat-num">180+</span><span className="stat-label">cities</span></div>
+            <div className="stat"><span className="stat-num">{stats.cities}</span><span className="stat-label">cities</span></div>
             <div className="stat-divider" />
-            <div className="stat"><span className="stat-num">850</span><span className="stat-label">active drops</span></div>
+            <div className="stat"><span className="stat-num">{stats.activeDrops}</span><span className="stat-label">active drops</span></div>
           </div>
         </main>
         <div className="bottom-fade" />
