@@ -19,7 +19,7 @@ function Login() {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
-      navigate('/map');
+      navigate('/profile');
     } catch (err) {
       switch (err.code) {
         case 'auth/email-already-in-use': setError('An account with this email already exists.'); break;
@@ -34,7 +34,7 @@ function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithPopup(auth, provider);
-      navigate('/map');
+      navigate('/profile');
     } catch (err) {
       setError('Google sign-in failed. Please try again.');
     }
