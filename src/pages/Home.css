@@ -233,9 +233,9 @@
 
 .sb-actions { display: flex; gap: 14px; align-items: center; margin-bottom: 52px; flex-wrap: wrap; }
 
-.btn-primary { position: relative; padding: 0; background: none; border: none; cursor: pointer; border-radius: 50px; }
+.home-btn-primary { position: relative; padding: 0; background: none; border: none; cursor: pointer; border-radius: 50px; outline: none; }
 
-.btn-inner {
+.home-btn-inner {
   position: relative;
   display: flex;
   align-items: center;
@@ -250,9 +250,10 @@
   letter-spacing: 0.03em;
   transition: transform 0.2s ease, filter 0.2s ease;
   overflow: hidden;
+  outline: none;
 }
 
-.btn-glow {
+.home-btn-glow {
   position: absolute;
   inset: -2px;
   border-radius: 50px;
@@ -263,11 +264,11 @@
   z-index: -1;
 }
 
-.btn-primary:hover .btn-inner { transform: scale(1.04); filter: brightness(1.08); }
-.btn-primary:hover .btn-glow  { opacity: 0.5; }
-.btn-primary:active .btn-inner { transform: scale(0.97); }
+.home-btn-primary:hover .home-btn-inner { transform: scale(1.04); filter: brightness(1.08); }
+.home-btn-primary:hover .home-btn-glow  { opacity: 0.5; }
+.home-btn-primary:active .home-btn-inner { transform: scale(0.97); }
 
-.btn-ghost {
+.home-btn-ghost {
   padding: 13px 26px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -279,9 +280,10 @@
   cursor: pointer;
   letter-spacing: 0.02em;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  outline: none;
 }
 
-.btn-ghost:hover { background: rgba(255,235,190,0.08); border-color: rgba(201,169,110,0.3); transform: scale(1.03); }
+.home-btn-ghost:hover { background: rgba(255,235,190,0.08); border-color: rgba(201,169,110,0.3); transform: scale(1.03); }
 
 .sb-stats { display: flex; align-items: center; gap: 24px; }
 .stat { display: flex; flex-direction: column; gap: 3px; }

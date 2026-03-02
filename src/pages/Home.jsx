@@ -139,10 +139,10 @@ export default function Home() {
             Passers-by discover it for 24 hours — then it's gone.
           </p>
           <div className="sb-actions">
-            <button className="btn-primary" onClick={(e) => { e.stopPropagation(); navigate('/login'); }}>
-              <span className="btn-inner"><span className="btn-glow" />Sign In</span>
+            <button className="home-btn-primary" onClick={(e) => { e.stopPropagation(); navigate('/login'); }}>
+              <span className="home-btn-inner"><span className="home-btn-glow" />Sign In</span>
             </button>
-            <button className="btn-ghost" onClick={(e) => { e.stopPropagation(); navigate('/map'); }}>
+            <button className="home-btn-ghost" onClick={(e) => { e.stopPropagation(); navigate('/map'); }}>
               Explore the Map
             </button>
           </div>
