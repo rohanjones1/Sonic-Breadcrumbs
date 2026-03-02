@@ -11,23 +11,28 @@ import { auth } from "../firebase";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
-// function getDistance(lat1, lng1, lat2, lng2) {
-//   const R = 6371000; // Earth radius in meters
-//   const dLat = ((lat2 - lat1) * Math.PI) / 180;
-//   const dLng = ((lng2 - lng1) * Math.PI) / 180;
-//   const a =
-//     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-//     Math.cos((lat1 * Math.PI) / 180) *
-//       Math.cos((lat2 * Math.PI) / 180) *
-//       Math.sin(dLng / 2) *
-//       Math.sin(dLng / 2);
-//   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-// }
+const NEARBY_RADIUS_KM = 0.5;
+
+function getDistanceKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 function MapPage() {
   const mapContainer = useRef(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [nearbyDrops, setNearbyDrops] = useState([]);
+  const userLocationRef = useRef(null);
+  const auraCache = useRef({});
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -52,7 +57,7 @@ function MapPage() {
     map.on("load", () => {
       navigator.geolocation.getCurrentPosition(async (pos) => {
         const { latitude, longitude } = pos.coords;
-
+        userLocationRef.current = { latitude, longitude };
         map.setCenter([longitude, latitude]);
 
         // Your location dot
@@ -100,6 +105,44 @@ function MapPage() {
     };
   }, []);
 
+  const fetchNearbyDrops = async () => {
+    const { latitude, longitude } = userLocationRef.current || {};
+    if (!latitude || !longitude) return;
+
+    const snapshot = await getDocs(collection(db, "drops"));
+    const all = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    const nearby = all.filter((drop) => {
+      const dist = getDistanceKm(latitude, longitude, drop.lat, drop.lng);
+      return dist <= NEARBY_RADIUS_KM;
+    });
+
+    setNearbyDrops(nearby);
+  };
+
+  const getCacheKey = () => {
+    const { latitude, longitude } = userLocationRef.current || {};
+    if (!latitude || !longitude) return null;
+    return `${latitude.toFixed(3)},${longitude.toFixed(3)}`;
+  };
+
+  const getCachedAura = () => {
+    const key = getCacheKey();
+    if (!key) return null;
+    return auraCache.current[key] || null;
+  };
+
+  const setCachedAura = (aura) => {
+    const key = getCacheKey();
+    if (!key) return;
+    auraCache.current[key] = aura;
+  };
+
+  const handleOpenModal = () => {
+    fetchNearbyDrops();
+    setShowModal(true);
+  };
+
   const handleDrop = async (song) => {
     if (!auth.currentUser) {
       navigate("/login");
@@ -114,12 +157,16 @@ function MapPage() {
         artistName: song.artistName,
         artwork: song.artworkUrl100,
         previewUrl: song.previewUrl,
+        genre: song.primaryGenreName || "Unknown",
         lat: latitude,
         lng: longitude,
         timestamp: new Date(),
         userId: auth.currentUser?.uid,
         userName: auth.currentUser?.displayName,
       });
+
+      const key = getCacheKey();
+      if (key) delete auraCache.current[key];
 
       setShowModal(false);
     });
@@ -174,6 +221,7 @@ function MapPage() {
   return (
     <div className="map-container">
       <div ref={mapContainer} className="map" />
+      <button className="drop-button" onClick={handleOpenModal}>
 
       {/* ── Profile avatar button (top-left) ── */}
       <button
@@ -509,6 +557,9 @@ function MapPage() {
         <DropSongModal
           onClose={() => setShowModal(false)}
           onDrop={handleDrop}
+          drops={nearbyDrops}
+          getCachedAura={getCachedAura}
+          setCachedAura={setCachedAura}
         />
       )}
     </div>

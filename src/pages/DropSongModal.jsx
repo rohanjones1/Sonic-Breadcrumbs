@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./DropSongModal.css";
+import LocationAura from "./LocationAura";
 
-function DropSongModal({ onClose, onDrop }) {
+function DropSongModal({ onClose, onDrop, drops, getCachedAura, setCachedAura }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,14 +27,16 @@ function DropSongModal({ onClose, onDrop }) {
     return () => clearTimeout(delay);
   }, [query]);
 
-  const handleSelect = (song) => {
-    setSelected(song);
-  };
-
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>Drop a Song</h2>
+
+        <LocationAura
+          drops={drops}
+          getCachedAura={getCachedAura}
+          setCachedAura={setCachedAura}
+        />
 
         <div className="search-row">
           <input
@@ -44,14 +47,13 @@ function DropSongModal({ onClose, onDrop }) {
           />
         </div>
 
-        {/* Results */}
         {loading && <p>Searching...</p>}
         <ul className="results-list">
           {results.map((song) => (
             <li
               key={song.trackId}
               className={selected?.trackId === song.trackId ? "selected" : ""}
-              onClick={() => handleSelect(song)}
+              onClick={() => setSelected(song)}
             >
               <img src={song.artworkUrl100} alt={song.trackName} />
               <div>
@@ -65,7 +67,6 @@ function DropSongModal({ onClose, onDrop }) {
           ))}
         </ul>
 
-        {/* Selected song preview + confirm */}
         {selected && (
           <div className="selected-preview">
             <audio src={selected.previewUrl} autoPlay controls />
@@ -76,10 +77,7 @@ function DropSongModal({ onClose, onDrop }) {
                 <p className="song-artist">{selected.artistName}</p>
               </div>
             </div>
-            <button
-              className="drop-confirm-btn"
-              onClick={() => onDrop(selected)}
-            >
+            <button className="drop-confirm-btn" onClick={() => onDrop(selected)}>
               📍 Drop this Song here
             </button>
           </div>
