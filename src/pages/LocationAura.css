@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;1,400&display=swap');
+
+.aura-card {
+  font-family: 'Syne', sans-serif;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  animation: aura-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes aura-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mode backgrounds */
+.aura-consistent {
+  background: linear-gradient(135deg, #0a1a10 0%, #0d2117 60%, #091a14 100%);
+  border: 1px solid rgba(52, 211, 100, 0.2);
+  box-shadow: 0 0 40px rgba(52, 211, 100, 0.06), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.aura-chaotic {
+  background: linear-gradient(135deg, #1a0d10 0%, #200f15 60%, #1a0a0d 100%);
+  border: 1px solid rgba(255, 80, 100, 0.2);
+  box-shadow: 0 0 40px rgba(255, 80, 100, 0.06), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.aura-empty {
+  background: linear-gradient(135deg, #0f0f0f 0%, #141414 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+/* Animated background shimmer */
+.aura-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.015) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: shimmer 4s ease infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Top row */
+.aura-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.aura-mode-tag {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.aura-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.aura-dot.consistent {
+  background: #34d364;
+  box-shadow: 0 0 8px #34d364, 0 0 16px rgba(52, 211, 100, 0.4);
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+.aura-dot.chaotic {
+  background: #ff5064;
+  box-shadow: 0 0 8px #ff5064, 0 0 16px rgba(255, 80, 100, 0.4);
+  animation: pulse-red 1.4s ease-in-out infinite;
+}
+
+.aura-dot.empty {
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 8px #34d364, 0 0 16px rgba(52, 211, 100, 0.4); }
+  50% { box-shadow: 0 0 12px #34d364, 0 0 28px rgba(52, 211, 100, 0.6); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 8px #ff5064, 0 0 16px rgba(255, 80, 100, 0.4); }
+  50% { box-shadow: 0 0 14px #ff5064, 0 0 30px rgba(255, 80, 100, 0.55); }
+}
+
+.aura-drop-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.25);
+}
+
+/* Headline */
+.aura-headline {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  animation: aura-enter 0.6s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Body */
+.aura-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.45);
+  margin: 0 0 16px 0;
+  font-weight: 400;
+  animation: aura-enter 0.6s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Recommendation */
+.aura-rec {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 14px;
+  animation: aura-enter 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.aura-rec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 10px;
+}
+
+.aura-rec-content {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.aura-rec-content:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.aura-rec-song {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.aura-rec-track {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.aura-rec-artist {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+}
+
+.aura-rec-reason {
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(255,255,255,0.3);
+  margin: 0;
+  line-height: 1.5;
+  font-family: 'DM Mono', monospace;
+}
+
+/* Loading skeleton */
+.aura-loading {
+  background: #0d0d0d;
+  border: 1px solid rgba(255,255,255,0.06);
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+.aura-pulse-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.aura-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.aura-pulse-line {
+  height: 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.07);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.aura-pulse-line.long { width: 55%; animation-delay: 0.1s; }
+.aura-pulse-line.short { width: 35%; margin-bottom: 10px; animation-delay: 0.2s; }
+.aura-pulse-line.medium { width: 75%; animation-delay: 0.15s; }
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
