@@ -181,7 +181,7 @@ function Login() {
         <div className="mini-vinyl"><div className="mini-vinyl-hole" /></div>
 
         <div className="login-header">
-          <div className="brand-line">SONIC BREADCRUMBS</div>
+          <div className="brand-line">BEATDROP</div>
           <h1>{isSignUp ? 'Join the Stage' : 'Welcome Back'}</h1>
           <p>{isSignUp ? 'Create your account' : 'Drop music. Discover the world.'}</p>
         </div>

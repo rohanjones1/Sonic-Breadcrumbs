@@ -362,7 +362,7 @@ export default function Profile() {
       <div className="profile-page">
         <div className="vinyl-bg" />
         <div className="card">
-          <div className="brand">Sonic Breadcrumbs</div>
+          <div className="brand">BeatDrop</div>
 
           <div className="avatar-wrap">
             <div className={`avatar ${username ? 'has-letter' : ''}`}>
@@ -372,7 +372,7 @@ export default function Profile() {
           </div>
 
           <h1>Your Profile</h1>
-          <p className="subtitle">Set the stage before you drop your first breadcrumb</p>
+          <p className="subtitle">Set the stage before you drop your first beat</p>
 
           <div className="field">
             <div className="section-label">Username</div>

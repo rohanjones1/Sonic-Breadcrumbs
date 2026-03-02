@@ -170,7 +170,7 @@ export default function Home() {
   return (
     <>
       <nav className="sb-nav">
-        <span className="sb-logo">Sonic Breadcrumbs</span>
+        <span className="sb-logo">BeatDrop</span>
       </nav>
 
       {clickRipples.map(r => (
