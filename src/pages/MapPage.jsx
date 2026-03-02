@@ -7,7 +7,6 @@ import DropSongModal from "./DropSongModal";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
