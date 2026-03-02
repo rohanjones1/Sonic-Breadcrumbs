@@ -222,7 +222,8 @@ function MapPage() {
     <div className="map-container">
       <div ref={mapContainer} className="map" />
       <button className="drop-button" onClick={handleOpenModal}>
-
+        + Drop a Song
+      </button>
       {/* ── Profile avatar button (top-left) ── */}
       <button
         className="profile-avatar-btn"
@@ -550,9 +551,7 @@ function MapPage() {
         }
       `}</style>
 
-      <button className="drop-button" onClick={() => setShowModal(true)}>
-        + Drop a Song
-      </button>
+      
       {showModal && (
         <DropSongModal
           onClose={() => setShowModal(false)}
