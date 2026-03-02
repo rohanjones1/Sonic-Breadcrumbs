@@ -224,9 +224,20 @@ function MapPage() {
   return (
     <div className="map-container">
       <div ref={mapContainer} className="map" />
-      <button className="drop-button" onClick={handleOpenModal}>+ Drop a Song</button>
+      <button className="drop-button" onClick={handleOpenModal}>
+        + Drop a Song
+      </button>
 
-      <button className="profile-avatar-btn" onClick={() => setShowProfile(true)} title="View profile">
+      <button className="feed-nav-btn" onClick={() => navigate("/feed")}>
+        ♫ Feed
+      </button>
+
+      {/* ── Profile avatar button (top-left) ── */}
+      <button
+        className="profile-avatar-btn"
+        onClick={() => setShowProfile(true)}
+        title="View profile"
+      >
         {photoURL ? (
           <img src={photoURL} alt="Profile" className="profile-avatar-img" />
         ) : (

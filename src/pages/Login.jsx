@@ -92,7 +92,7 @@ function Login() {
         await setDoc(doc(db, 'usernames', generatedUsername), { uid: user.uid });
       }
 
-      navigate('/map');
+      navigate('/profile');
     } catch (err) {
       setError('Google sign-in failed. Please try again.');
     } finally {

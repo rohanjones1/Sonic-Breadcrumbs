@@ -385,3 +385,27 @@
     text-align: center;
     margin-top: 2rem;
 }
+
+.feed-nav-btn {
+  position: absolute;
+  top: 16px;
+  left: 72px; /* sits right of the profile avatar button */
+  z-index: 10;
+  background: #2a2416;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 20px;
+  color: #c9a84c;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.feed-nav-btn:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: #c9a84c;
+  transform: scale(1.04);
+}
